@@ -7,18 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        'gastronomico': {
-          'primary': '#8B4513',      // Marrón madera
-          'secondary': '#D2691E',    // Naranja cálido
-          'accent': '#F4A460',       // Melocotón
-          'success': '#2E7D32',      // Verde oliva
-          'warning': '#FFA000',       // Ámbar
-          'danger': '#C62828',        // Rojo vino
-          'info': '#0277BD',          // Azul marino
-          'light': '#FFF8E7',         // Crema
-          'dark': '#3E2723',          // Café oscuro
-        },
+        colors: {
+        primary: '#1E3A8A',   // blue-800
+        secondary: '#3B82F6', // blue-500
+        accent: '#60A5FA',    // blue-400
+        background: '#F9FAFB',// gray-50
+        surface: '#FFFFFF',   // white
+        text: '#111827',      // gray-900
+        muted: '#6B7280',     // gray-500
+        border: '#E5E7EB',    // gray-200
       },
       fontFamily: {
         'sans': ['Poppins', 'system-ui', 'sans-serif'],

@@ -5,18 +5,23 @@
 
 @layer components {
     .sidebar-link {
-        @apply flex items-center px-4 py-2 text-gray-700 hover:bg-gastronomico-light hover:text-gastronomico-primary rounded-lg transition-colors duration-200;
+        @apply flex items-center px-4 py-2 text-muted 
+               hover:bg-background 
+               hover:text-primary 
+               rounded-lg transition-colors duration-200;
     }
     
     .sidebar-link.active {
-        @apply bg-gastronomico-primary text-white;
+        @apply bg-primary text-white;
     }
     
     .card {
-        @apply bg-white rounded-lg shadow-md p-6;
+        @apply bg-surface rounded-lg shadow-md p-6 border border-border;
     }
     
     .btn-primary {
-        @apply bg-gastronomico-primary text-white px-4 py-2 rounded-lg hover:bg-gastronomico-secondary transition-colors duration-200;
+        @apply bg-primary text-white px-4 py-2 rounded-lg 
+               hover:bg-secondary 
+               transition-colors duration-200;
     }
 }

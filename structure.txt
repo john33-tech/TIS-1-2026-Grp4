@@ -96,15 +96,14 @@ henry@email.com
 =================================================================
 ====================PALETA DE COLORES============================
 :root {
-  --primary: #8B4513;    /* Marrón madera - Principal */
-  --secondary: #D2691E;   /* Naranja cálido - Secundario */
-  --accent: #F4A460;      /* Melocotón - Acentos */
-  --success: #2E7D32;     /* Verde oliva - Éxito */
-  --warning: #FFA000;     /* Ámbar - Advertencia */
-  --danger: #C62828;      /* Rojo vino - Error */
-  --info: #0277BD;        /* Azul marino - Información */
-  --light: #FFF8E7;       /* Crema - Fondos claros */
-  --dark: #3E2723;        /* Café oscuro - Texto */
+  --primary: #1E3A8A;   /* blue-800 */
+  --secondary: #3B82F6; /* blue-500 */
+  --accent: #60A5FA;    /* blue-400 */
+  --background: #F9FAFB;/* gray-50 */
+  --surface: #FFFFFF;   /* white */
+  --text: #111827;      /* gray-900 */
+  --muted: #6B7280;     /* gray-500 */
+  --border: #E5E7EB;    /* gray-200 */
 }
 =================================================================
 =================================================================
@@ -203,3 +202,49 @@ Mostrar la estructura de archivos y carpetas del proyecto Laravel.
 Mostrar la paleta de colores utilizadas
 También especificar como implementar el sistema en casos necesarios (comandos, uso de tinker, rutas de los archivos que fueron agregadas/modificadas etc)
 
+
+
+
+
+
+
+
+
+
+
+
+
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+// Admin
+User::create([
+    'name' => 'Administrador',
+    'email' => 'admin@saborgestion.com',
+    'password' => '12345678',
+    'role' => 'admin'
+]);
+
+// Mesero
+User::create([
+    'name' => 'Mesero',
+    'email' => 'mesero@saborgestion.com',
+    'password' => '12345678',
+    'role' => 'mesero'
+]);
+
+// Cocinero
+User::create([
+    'name' => 'Cocinero',
+    'email' => 'cocinero@saborgestion.com',
+    'password' => '12345678',
+    'role' => 'cocinero'
+]);
+
+// Cajero
+User::create([
+    'name' => 'Cajero',
+    'email' => 'cajero@saborgestion.com',
+    'password' => '12345678',
+    'role' => 'cajero'
+]);
