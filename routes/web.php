@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/cajero', [DashboardController::class, 'cajero'])->name('dashboard.cajero');
     
     // Gestión de Productos
-    Route::resource('productos', ProductoController::class)->middleware('role:admin,cocinero');
+    Route::resource('platos', ProductoController::class)->middleware('role:admin,cocinero');
     
     // Inventario
     Route::resource('inventario', InventarioController::class)->middleware('role:admin,cocinero');

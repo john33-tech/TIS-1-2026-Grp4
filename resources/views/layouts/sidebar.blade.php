@@ -21,7 +21,8 @@
     <div class="p-5 border-b border-white/10 flex items-center justify-between">
         <div class="flex items-center gap-3 overflow-hidden">
             <div class="flex-shrink-0">
-                <i class="fas fa-utensils text-2xl text-white"></i>
+                 <img src="{{ asset('logo.png') }}" alt="SaborGestion Logo" 
+                          class="object-contain w-12 h-12 md:w-14 md:h-14 rounded-full">
             </div>
             <div x-show="sidebarOpen" 
                  x-transition:enter="transition ease-out duration-200"
@@ -123,10 +124,10 @@
                 <div x-show="open" 
                      x-collapse
                      class="ml-10 mt-1 space-y-1">
-                    <a href="{{ route('productos.index') }}" 
+                    <a href="{{ route('platos.index') }}" 
                        class="flex items-center gap-3 px-4 py-2 text-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 group">
-                        <i class="fas fa-hamburger text-xs w-4"></i>
-                        <span x-show="sidebarOpen" class="whitespace-nowrap">Productos</span>
+                        <i class="fas fa-utensils text-xs w-4"></i>
+                       <span x-show="sidebarOpen" class="whitespace-nowrap">Platos</span>
                     </a>
                     <a style="display:none" href="{{ route('inventario.index') }}" 
                        class="flex items-center justify-between px-4 py-2 text-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 group">
