@@ -29,25 +29,9 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-text mb-2">
-                        Icono (Font Awesome)
-                        <span class="text-xs text-muted ml-2">Ej: fa-utensils, fa-pizza-slice, fa-hamburger</span>
-                    </label>
-                    <div class="flex gap-3">
-                        <input type="text" 
-                               name="icono" 
-                               value="{{ old('icono', $categoria->icono) }}" 
-                               id="icono"
-                               placeholder="fa-tag"
-                               class="flex-1 px-4 py-2 rounded-lg border border-border focus:outline-none focus:border-primary">
-                        <div id="iconPreview" class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <i class="fas {{ $categoria->icono ?? 'fa-tag' }} text-primary text-xl"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-muted mt-1">
-                        <i class="fas fa-info-circle"></i> 
-                        Puedes usar cualquier icono de <a href="https://fontawesome.com/icons" target="_blank" class="text-primary">Font Awesome</a>
-                    </p>
+                    <label class="block text-sm font-medium text-text mb-2">Icono (Font Awesome)</label>
+                    {{-- Componente reutilizable --}}
+                    <x-icon-picker :selectedIcon="old('icono', $categoria->icono ?? 'fa-tag')" name="icono" />
                     @error('icono')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -105,21 +89,4 @@
         </form>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    const iconoInput = document.getElementById('icono');
-    const iconPreview = document.getElementById('iconPreview');
-    
-    function updateIconPreview() {
-        let iconClass = iconoInput.value.trim();
-        if (!iconClass) {
-            iconClass = 'fa-tag';
-        }
-        iconPreview.innerHTML = `<i class="fas ${iconClass} text-primary text-xl"></i>`;
-    }
-    
-    iconoInput.addEventListener('input', updateIconPreview);
-</script>
-@endpush
 @endsection
