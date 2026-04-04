@@ -18,9 +18,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            // 👇 aquí agregas el role
             $table->enum('role', ['admin', 'mesero', 'cocinero', 'cajero', 'cliente'])
                 ->default('cliente');
+
+            // 👇 nuevos campos opcionales
+            $table->string('celular')->nullable();
+            $table->string('direccion')->nullable();
+            $table->integer('score')->default(0);
 
             $table->rememberToken();
             $table->timestamps();

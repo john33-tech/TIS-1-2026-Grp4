@@ -10,25 +10,40 @@
         </div>
 
         <div class="relative z-10 w-full max-w-md">
+
+
+
+
+
+
+
+
+
+
+
             <!-- Logo y bienvenida -->
             <div class="mb-8 text-center animate-fade-in">
-                <div class="inline-flex items-center justify-center w-20 h-20 mb-4 rounded-full shadow-lg bg-white/10 backdrop-blur-sm">
-                    <svg class="w-12 h-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
-                    </svg>
+                <div class="flex items-center justify-center gap-3 mb-3">
+                    <div class="flex items-center justify-center w-16 h-16 rounded-full shadow-lg bg-white/10 backdrop-blur-sm">
+                        <img src="{{ asset('logo.png') }}" 
+                            alt="SaborGestion Logo" 
+                            class="object-cover w-14 h-14 rounded-full">
+                    </div>
+
+                    <a href="/" class="inline-block">
+                        <h1 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg leading-none">
+                            Sabor Gestión
+                        </h1>
+                    </a>
                 </div>
-                <a href="/" class="inline-block">
-                    <h1 class="mb-2 text-4xl font-bold text-white drop-shadow-lg">
-                        SaborGestion
-                    </h1>
-                </a>
                 <p class="text-sm text-white/90 drop-shadow">
-                    Sistema de gestión gastronómica
-                </p>
-                <p class="mt-2 text-xs text-white/80 drop-shadow">
-                    Regístrate para comenzar a gestionar tu restaurante
+                    Regístrate y sé nuestro cliente VIP
                 </p>
             </div>
+
+
+
+
 
             <!-- Card de registro -->
             <div class="overflow-hidden transition-all duration-300 shadow-2xl bg-white/95 backdrop-blur-sm rounded-2xl hover:shadow-3xl">

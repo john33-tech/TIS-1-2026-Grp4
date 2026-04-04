@@ -10,6 +10,10 @@
         </div>
 
         <div class="relative z-10 w-full max-w-md">
+
+
+
+
             <!-- Logo y bienvenida -->
             <div class="mb-8 text-center animate-fade-in">
                 <div class="flex items-center justify-center gap-3 mb-3">
@@ -21,18 +25,18 @@
 
                     <a href="/" class="inline-block">
                         <h1 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg leading-none">
-                            SaborGestion
+                            Sabor Gestión
                         </h1>
                     </a>
                 </div>
                 <p class="text-sm text-white/90 drop-shadow">
                     Sistema de gestión gastronómica
                 </p>
-                <p class="mt-2 text-xs text-white/80 drop-shadow">
-                    Bienvenido al control de tu restaurante
-                </p>
-
             </div>
+
+
+
+
 
             <!-- Card de login -->
             <div class="overflow-hidden transition-all duration-300 shadow-2xl bg-white/95 backdrop-blur-sm rounded-2xl hover:shadow-3xl">
