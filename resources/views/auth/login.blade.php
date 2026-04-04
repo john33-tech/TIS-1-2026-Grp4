@@ -108,18 +108,38 @@
                         <!-- Botón de inicio -->
                         <button type="submit"
                             class="w-full flex justify-center items-center px-4 py-3 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/80 hover:to-primary rounded-xl text-white font-semibold transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-lg hover:shadow-xl">
-                            <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                            </svg>
                             Ingresar al sistema
                         </button>
 
+
+
+                        <div class="mt-4 text-center">
+                            <p class="text-sm text-gray-600">
+                                ¿No tienes cuenta?
+                                <a href="{{ route('register') }}"
+                                class="font-semibold text-primary hover:text-primary/80 transition-colors">
+                                    Crear cuenta
+                                </a>
+                            </p>
+                        </div>
+
+
+
+
+
+
+                        
+
                         <!-- Credenciales de prueba estilizadas -->
                         <div class="pt-4 mt-6 border-t border-gray-200">
-                            <p class="mb-3 text-xs font-medium text-center text-gray-500">
-                                🔑 Credenciales de prueba
-                            </p>
-                            <div class="grid grid-cols-2 gap-2 text-center">
+                            <button onclick="mostrarOcultarCredenciales()" 
+                                type="button" 
+                                class="block mx-auto mb-3 text-xs font-medium text-gray-500 hover:text-primary transition">
+                                
+                                <span id="textoCredenciales">🔑 Credenciales de prueba</span>
+
+                            </button>
+                            <div class="grid grid-cols-2 gap-2 text-center" id="credentialsId" style="display: none;">
                                 <div class="p-2 border rounded-lg bg-amber-50 border-amber-200">
                                     <p class="font-mono text-xs font-semibold text-amber-800">Administrador</p>
                                     <p class="font-mono text-xs text-gray-600">admin@saborgestion.com</p>
@@ -141,6 +161,9 @@
                                     <p class="font-mono text-xs text-gray-500">password</p>
                                 </div>
                             </div>
+
+
+
                         </div>
                     </form>
                 </div>
@@ -148,3 +171,21 @@
         </div>
     </div>
 </x-guest-layout>
+
+
+
+
+<script>
+function mostrarOcultarCredenciales() {
+    const credentialsDiv = document.getElementById('credentialsId');
+    const texto = document.getElementById('textoCredenciales');
+
+    if (credentialsDiv.style.display === 'none') {
+        credentialsDiv.style.display = 'grid';
+        texto.innerText = 'Ocultar credenciales 🔒';
+    } else {
+        credentialsDiv.style.display = 'none';
+        texto.innerText = '🔑 Credenciales de prueba';
+    }
+}
+</script>
