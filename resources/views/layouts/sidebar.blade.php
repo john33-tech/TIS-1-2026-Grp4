@@ -33,7 +33,7 @@
         <div class="space-y-1">
             
             <!-- Inteligencia de Negocios -->
-            @if(in_array($role, ['admin', 'mesero', 'cocinero', 'cajero']))
+            @if(in_array($role, ['admin', 'mesero', 'cocinero', 'cajero', 'cliente']))
             <div x-data="{ 
                 open: localStorage.getItem('sidebar_section_inteligencia') === 'true',
                 toggle() {
@@ -98,6 +98,13 @@
                            class="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 group">
                             <i class="fas fa-chart-bar text-[10px] sm:text-xs w-4"></i>
                             <span x-show="sidebarExpanded || (windowWidth < 1024 && mobileSidebarOpen)" class="whitespace-nowrap">Dashboard Cajero</span>
+                        </a>
+                    @endif
+                    @if($role == 'cliente')
+                        <a href="{{ route('dashboard.cliente') }}" 
+                           class="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 group">
+                            <i class="fas fa-chart-pie text-[10px] sm:text-xs w-4"></i>
+                            <span x-show="sidebarExpanded || (windowWidth < 1024 && mobileSidebarOpen)" class="whitespace-nowrap">Dashboard Cliente</span>
                         </a>
                     @endif
                 </div>
