@@ -155,10 +155,11 @@
                             </div>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                                <i class="fas fa-tag mr-1"></i> {{ $plato->categoria->nombre }}
-                            </span>
-                        </td>
+    <span class="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+        <i class="fas {{ $plato->categoria->icono }} mr-1"></i> 
+        {{ $plato->categoria->nombre }}
+    </span>
+</td>
                         <td class="py-3 px-4">
                             <span class="font-semibold text-primary">${{ number_format($plato->precio, 2) }}</span>
                         </td>

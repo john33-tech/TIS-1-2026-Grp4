@@ -37,11 +37,8 @@ class Plato extends Model
                     ->withTimestamps();
     }
 
-    // Actualizar el score promedio basado en calificaciones de usuarios
     public function actualizarScore(): void
     {
-        // Aquí puedes implementar la lógica para calcular el score
-        // basado en calificaciones de usuarios que han pedido este plato
         $this->save();
     }
 }

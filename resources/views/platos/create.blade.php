@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
+<div class="max-w-4xl mx-auto" x-data="{ ingredientes: [] }">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-primary">Crear Nuevo Plato</h1>
         <a href="{{ route('platos.index') }}" class="btn-secondary">
@@ -81,14 +81,14 @@
                         
                         <div>
                             <label class="flex items-center">
-                                <input type="checkbox" name="disponible" value="1" checked class="mr-2">
+                                <input type="checkbox" name="disponible" value="1" {{ old('disponible', true) ? 'checked' : '' }} class="mr-2">
                                 <span class="text-sm text-text">Disponible para la venta</span>
                             </label>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Ingredientes -->
+                <!-- Ingredientes con Alpine.js -->
                 <div>
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-semibold text-text">Ingredientes</h2>
@@ -99,15 +99,59 @@
                         </a>
                     </div>
                     
+                    <!-- Contenedor de ingredientes dinámicos -->
                     <div id="ingredientes-container" class="space-y-3">
-                        <div class="text-center text-muted py-4" id="no-ingredientes-msg">
+                        <template x-for="(ingrediente, index) in ingredientes" :key="index">
+                            <div class="flex gap-3 items-start border border-border rounded-lg p-3 bg-background">
+                                <select :name="'ingredientes[' + index + '][id]'" 
+                                        class="flex-1 px-4 py-2 rounded-lg border border-border"
+                                        x-model="ingrediente.id"
+                                        required>
+                                    <option value="">Seleccionar ingrediente</option>
+                                    @foreach($ingredientes as $ingrediente)
+                                        <option value="{{ $ingrediente->id }}">
+                                            {{ $ingrediente->nombre }} ({{ $ingrediente->unidad_medida }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                
+                                <input type="number" 
+                                       :name="'ingredientes[' + index + '][cantidad]'"
+                                       x-model="ingrediente.cantidad"
+                                       placeholder="Cantidad" 
+                                       step="0.01" 
+                                       required 
+                                       class="w-32 px-4 py-2 rounded-lg border border-border">
+                                
+                                <button type="button" 
+                                        @click="ingredientes.splice(index, 1)"
+                                        class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </template>
+                        
+                        <!-- Mensaje cuando no hay ingredientes -->
+                        <div x-show="ingredientes.length === 0" class="text-center text-muted py-4">
                             <i class="fas fa-info-circle"></i> No hay ingredientes agregados
                         </div>
                     </div>
                     
-                    <button type="button" onclick="agregarIngrediente()" class="mt-3 text-primary hover:text-secondary">
-                        <i class="fas fa-plus-circle mr-1"></i> Agregar ingrediente existente
-                    </button>
+                    @if($ingredientes->count() > 0)
+                        <button type="button" 
+                                @click="ingredientes.push({ id: '', cantidad: '' })" 
+                                class="mt-3 text-primary hover:text-secondary">
+                            <i class="fas fa-plus-circle mr-1"></i> Agregar ingrediente
+                        </button>
+                    @else
+                        <div class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <p class="text-yellow-800 text-sm">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                No hay ingredientes disponibles. 
+                                <a href="{{ route('ingredientes.create') }}" target="_blank" class="font-semibold underline">Crea un ingrediente primero</a>
+                            </p>
+                        </div>
+                    @endif
                     
                     <p class="text-xs text-muted mt-2">
                         <i class="fas fa-info-circle"></i> 
@@ -129,47 +173,36 @@
 
 @push('scripts')
 <script>
-function agregarIngrediente() {
-    const ingredientesExistentes = @json($ingredientes);
+    // Función para recargar cuando la ventana recupera el foco
+    let ventanaRecargada = false;
+    window.addEventListener('focus', function() {
+        if (!ventanaRecargada && localStorage.getItem('recargarPlatos') === 'true') {
+            localStorage.removeItem('recargarPlatos');
+            ventanaRecargada = true;
+            location.reload();
+        }
+    });
     
-    if (ingredientesExistentes.length === 0) {
-        alert('No hay ingredientes disponibles. Crea un ingrediente primero.');
-        return;
-    }
+    // Marcar que se necesita recargar cuando se abre una nueva pestaña
+    document.querySelectorAll('a[target="_blank"]').forEach(link => {
+        link.addEventListener('click', () => {
+            localStorage.setItem('recargarPlatos', 'true');
+        });
+    });
     
-    let html = `
-        <div class="flex gap-3 items-start border border-border rounded-lg p-3 bg-background">
-            <select name="ingredientes[__index__][id]" class="flex-1 px-4 py-2 rounded-lg border border-border ingrediente-select" required>
-                <option value="">Seleccionar ingrediente</option>
-                ${ingredientesExistentes.map(ing => `<option value="${ing.id}">${ing.nombre} (${ing.unidad_medida})</option>`).join('')}
-            </select>
-            <input type="number" name="ingredientes[__index__][cantidad]" placeholder="Cantidad" step="0.01" required class="w-32 px-4 py-2 rounded-lg border border-border">
-            <button type="button" onclick="this.closest('.flex').remove()" class="text-red-600 hover:text-red-800">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-    `;
-    
-    const container = document.getElementById('ingredientes-container');
-    const index = Date.now();
-    html = html.replace(/__index__/g, index);
-    
-    if (container.querySelector('#no-ingredientes-msg')) {
-        container.innerHTML = '';
-    }
-    
-    container.insertAdjacentHTML('beforeend', html);
-}
-
-// Mensaje para recargar cuando la ventana vuelve a tener foco
-window.addEventListener('focus', function() {
-    // Verificar si hay nuevos datos (opcional)
-    fetch('{{ route("categorias.index") }}', { method: 'HEAD' })
-        .catch(() => {});
-});
-
-// Instrucción para el usuario
-console.log('Consejo: Para agregar nuevas categorías o ingredientes, ábrelos en nueva pestaña y recarga esta página');
+    // Cargar ingredientes existentes del old() si hay error de validación
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(old('ingredientes'))
+            const ingredientesExistentes = @json(old('ingredientes'));
+            const alpineData = document.querySelector('[x-data]').__x.$data;
+            ingredientesExistentes.forEach(ing => {
+                alpineData.ingredientes.push({
+                    id: ing.id,
+                    cantidad: ing.cantidad
+                });
+            });
+        @endif
+    });
 </script>
 @endpush
 @endsection

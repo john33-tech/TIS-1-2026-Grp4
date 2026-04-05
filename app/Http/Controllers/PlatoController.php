@@ -61,17 +61,18 @@ class PlatoController extends Controller
         return view('platos.create', compact('categorias', 'ingredientes'));
     }
     
-    public function store(Request $request)
+        public function store(Request $request)
     {
-        $request->validate([
+        // Validación mejorada
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric|min:0',
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'nullable|string',
             'disponible' => 'boolean',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'ingredientes' => 'array',
-            'ingredientes.*.id' => 'exists:ingredientes,id',
+            'ingredientes' => 'nullable|array',
+            'ingredientes.*.id' => 'required|exists:ingredientes,id',
             'ingredientes.*.cantidad' => 'required|numeric|min:0.01',
         ]);
         
@@ -81,7 +82,7 @@ class PlatoController extends Controller
         $plato->categoria_id = $request->categoria_id;
         $plato->descripcion = $request->descripcion;
         $plato->disponible = $request->has('disponible');
-        $plato->score = 0; // Inicialmente en 0
+        $plato->score = 0;
         
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('platos', 'public');
@@ -90,18 +91,39 @@ class PlatoController extends Controller
         
         $plato->save();
         
-        // Guardar ingredientes
-        if ($request->has('ingredientes')) {
+        // Guardar ingredientes con sus cantidades
+        if ($request->has('ingredientes') && is_array($request->ingredientes)) {
             foreach ($request->ingredientes as $ingrediente) {
-                $plato->ingredientes()->attach($ingrediente['id'], [
-                    'cantidad' => $ingrediente['cantidad']
-                ]);
+                if (!empty($ingrediente['id']) && !empty($ingrediente['cantidad'])) {
+                    $plato->ingredientes()->attach($ingrediente['id'], [
+                        'cantidad' => $ingrediente['cantidad']
+                    ]);
+                }
             }
         }
         
         return redirect()->route('platos.index')
             ->with('success', 'Plato creado exitosamente');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     public function edit(Plato $plato)
     {
