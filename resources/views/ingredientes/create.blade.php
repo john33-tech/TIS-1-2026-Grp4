@@ -36,7 +36,6 @@
                         <option value="ml" {{ old('unidad_medida') == 'ml' ? 'selected' : '' }}>Mililitros (ml)</option>
                         <option value="unidad" {{ old('unidad_medida') == 'unidad' ? 'selected' : '' }}>Unidad</option>
                         <option value="cda" {{ old('unidad_medida') == 'cda' ? 'selected' : '' }}>Cucharada (cda)</option>
-                        <option value="cdta" {{ old('unidad_medida') == 'cdta' ? 'selected' : '' }}>Cucharadita (cdta)</option>
                     </select>
                     @error('unidad_medida')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

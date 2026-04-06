@@ -152,7 +152,8 @@
                         <span x-show="sidebarExpanded || (windowWidth < 1024 && mobileSidebarOpen)" class="whitespace-nowrap">Platos</span>
                     </a>
                 </div>
-
+            
+                <div style="display:none;"><!--marcador1 Opaco-->
                 <div x-show="open" 
                     x-collapse
                     x-cloak
@@ -183,6 +184,9 @@
                         </span>
                     </a>
                 </div>
+                </div><!--fin marcador1-->
+
+
                 
             </div>
             @endif
