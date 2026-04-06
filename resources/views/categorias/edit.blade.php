@@ -28,6 +28,8 @@
                     @enderror
                 </div>
 
+
+
                 <div>
                     <label class="block text-sm font-medium text-text mb-2">Icono (Font Awesome)</label>
                     {{-- Componente reutilizable --}}
@@ -37,6 +39,9 @@
                     @enderror
                 </div>
 
+
+
+                
                 <div>
                     <label class="block text-sm font-medium text-text mb-2">Descripción</label>
                     <textarea name="descripcion" 

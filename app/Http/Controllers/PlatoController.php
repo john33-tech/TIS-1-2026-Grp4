@@ -106,24 +106,6 @@ class PlatoController extends Controller
             ->with('success', 'Plato creado exitosamente');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     public function edit(Plato $plato)
     {
@@ -131,7 +113,18 @@ class PlatoController extends Controller
         $ingredientes = Ingrediente::orderBy('nombre')->get();
         $plato->load('ingredientes');
         
-        return view('platos.edit', compact('plato', 'categorias', 'ingredientes'));
+        // Preparar los ingredientes seleccionados para Alpine.js
+        $ingredientesSeleccionados = $plato->ingredientes->map(function($ing) {
+            return [
+                'id' => $ing->id,
+                'nombre' => $ing->nombre,
+                'foto' => $ing->foto,
+                'unidad' => $ing->unidad_medida,
+                'cantidad' => (string) $ing->pivot->cantidad
+            ];
+        });
+        
+        return view('platos.edit', compact('plato', 'categorias', 'ingredientes', 'ingredientesSeleccionados'));
     }
     
     public function update(Request $request, Plato $plato)

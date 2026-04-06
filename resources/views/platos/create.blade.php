@@ -2,7 +2,43 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto" x-data="{ ingredientes: [] }">
+<div class="max-w-4xl mx-auto" x-data="{ 
+    selectedIngrediente: null,
+    ingredientesSeleccionados: [],
+    showDropdown: false,
+    
+    get cantidadSeleccionada() {
+        return this.selectedIngrediente ? this.selectedIngrediente.cantidad : '';
+    },
+    
+    set cantidadSeleccionada(value) {
+        if (this.selectedIngrediente) {
+            this.selectedIngrediente.cantidad = value;
+        }
+    },
+    
+    agregarIngrediente() {
+        if (this.selectedIngrediente && this.selectedIngrediente.cantidad) {
+            const existe = this.ingredientesSeleccionados.some(i => i.id === this.selectedIngrediente.id);
+            if (!existe) {
+                this.ingredientesSeleccionados.push({
+                    ...this.selectedIngrediente,
+                    cantidad: this.selectedIngrediente.cantidad
+                });
+            }
+            this.selectedIngrediente = null;
+            this.showDropdown = false;
+        }
+    },
+    
+    eliminarIngrediente(index) {
+        this.ingredientesSeleccionados.splice(index, 1);
+    },
+    
+    getImagenUrl(foto) {
+        return foto ? `/storage/${foto}` : null;
+    }
+}">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-primary">Crear Nuevo Producto</h1>
         <a href="{{ route('platos.index') }}" class="btn-secondary">
@@ -88,43 +124,104 @@
                     </div>
                 </div>
                 
-                <!-- Ingredientes con Alpine.js -->
+                <!-- Ingredientes -->
                 <div>
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-semibold text-text">Ingredientes</h2>
-                        <a href="{{ route('ingredientes.create') }}" 
-                           target="_blank" 
-                           class="btn-secondary text-sm inline-flex items-center justify-center">
-                            <i class="fas fa-plus mr-1"></i> Nuevo Ingrediente
-                        </a>
                     </div>
                     
-                    <!-- Contenedor de ingredientes dinámicos -->
-                    <div id="ingredientes-container" class="space-y-3">
-                        <template x-for="(ingrediente, index) in ingredientes" :key="index">
-                            <div class="flex gap-3 items-start border border-border rounded-lg p-3 bg-background">
-                                <select :name="'ingredientes[' + index + '][id]'" 
-                                        class="flex-1 px-4 py-2 rounded-lg border border-border"
-                                        x-model="ingrediente.id"
-                                        required>
-                                    <option value="">Seleccionar ingrediente</option>
-                                    @foreach($ingredientes as $ingrediente)
-                                        <option value="{{ $ingrediente->id }}">
-                                            {{ $ingrediente->nombre }} ({{ $ingrediente->unidad_medida }})
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-text mb-2">Agregar Ingrediente</label>
+                        <div class="relative">
+                            <!-- Selector personalizado -->
+                            <div @click="showDropdown = !showDropdown" 
+                                 class="w-full px-4 py-2 rounded-lg border border-border cursor-pointer flex justify-between items-center bg-white">
+                                <span x-text="selectedIngrediente ? selectedIngrediente.nombre : 'Seleccionar ingrediente'"></span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            
+                            <!-- Dropdown -->
+                            <div x-show="showDropdown" 
+                                 x-cloak
+                                 @click.away="showDropdown = false"
+                                 class="absolute z-10 w-full mt-1 bg-white border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                @foreach($ingredientes as $ingrediente)
+                                <div class="p-2 hover:bg-gray-100 cursor-pointer flex items-center space-x-3"
+                                     @click="selectedIngrediente = {
+                                         id: {{ $ingrediente->id }},
+                                         nombre: '{{ $ingrediente->nombre }}',
+                                         foto: '{{ $ingrediente->foto }}',
+                                         unidad: '{{ $ingrediente->unidad_medida }}',
+                                         cantidad: ''
+                                     }; showDropdown = false">
+                                    <div class="w-8 h-8">
+                                        @if($ingrediente->foto)
+                                            <img src="{{ Storage::url($ingrediente->foto) }}" class="w-full h-full object-cover rounded">
+                                        @else
+                                            <div class="w-full h-full bg-gray-200 rounded flex items-center justify-center">
+                                                <i class="fas fa-carrot text-gray-400 text-xs"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">{{ $ingrediente->nombre }}</p>
+                                        <p class="text-xs text-muted">{{ $ingrediente->unidad_medida }}</p>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 mt-2">
+                            <input type="number" 
+                                   x-model="cantidadSeleccionada"
+                                   placeholder="Cantidad"
+                                   step="0.01"
+                                   class="flex-1 px-4 py-2 rounded-lg border border-border">
+                            <button type="button" 
+                                    @click="agregarIngrediente()"
+                                    class="btn-primary px-4">
+                                <i class="fas fa-plus mr-1"></i> Agregar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Lista de ingredientes seleccionados -->
+                    <div class="space-y-3">
+                        <template x-for="(ingrediente, index) in ingredientesSeleccionados" :key="index">
+                            <div class="flex gap-3 items-center border border-border rounded-lg p-3 bg-background">
+                                <!-- Mostrar imagen del ingrediente -->
+                                <div class="w-12 h-12 flex-shrink-0">
+                                    <template x-if="ingrediente.foto">
+                                        <img :src="getImagenUrl(ingrediente.foto)" 
+                                             :alt="ingrediente.nombre"
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </template>
+                                    <template x-if="!ingrediente.foto">
+                                        <div class="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-carrot text-gray-400 text-2xl"></i>
+                                        </div>
+                                    </template>
+                                </div>
                                 
-                                <input type="number" 
-                                       :name="'ingredientes[' + index + '][cantidad]'"
-                                       x-model="ingrediente.cantidad"
-                                       placeholder="Cantidad" 
-                                       step="0.01" 
-                                       required 
-                                       class="w-32 px-4 py-2 rounded-lg border border-border">
+                                <!-- Información del ingrediente -->
+                                <div class="flex-1">
+                                    <p class="font-medium text-text" x-text="ingrediente.nombre"></p>
+                                    <p class="text-xs text-muted" x-text="'Unidad: ' + ingrediente.unidad"></p>
+                                </div>
+                                
+                                <!-- Campos ocultos para enviar -->
+                                <input type="hidden" :name="'ingredientes[' + index + '][id]'" :value="ingrediente.id">
+                                <input type="hidden" :name="'ingredientes[' + index + '][cantidad]'" :value="ingrediente.cantidad">
+                                
+                                <!-- Mostrar cantidad -->
+                                <div class="w-32 px-4 py-2 bg-gray-50 rounded-lg text-center">
+                                    <span x-text="ingrediente.cantidad"></span>
+                                    <span class="text-xs text-muted ml-1" x-text="ingrediente.unidad"></span>
+                                </div>
                                 
                                 <button type="button" 
-                                        @click="ingredientes.splice(index, 1)"
+                                        @click="eliminarIngrediente(index)"
                                         class="text-red-600 hover:text-red-800">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -132,26 +229,10 @@
                         </template>
                         
                         <!-- Mensaje cuando no hay ingredientes -->
-                        <div x-show="ingredientes.length === 0" class="text-center text-muted py-4">
+                        <div x-show="ingredientesSeleccionados.length === 0" class="text-center text-muted py-4">
                             <i class="fas fa-info-circle"></i> No hay ingredientes agregados
                         </div>
                     </div>
-                    
-                    @if($ingredientes->count() > 0)
-                        <button type="button" 
-                                @click="ingredientes.push({ id: '', cantidad: '' })" 
-                                class="mt-3 text-primary hover:text-secondary">
-                            <i class="fas fa-plus-circle mr-1"></i> Agregar ingrediente
-                        </button>
-                    @else
-                        <div class="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <p class="text-yellow-800 text-sm">
-                                <i class="fas fa-exclamation-triangle mr-1"></i>
-                                No hay ingredientes disponibles. 
-                                <a href="{{ route('ingredientes.create') }}" target="_blank" class="font-semibold underline">Crea un ingrediente primero</a>
-                            </p>
-                        </div>
-                    @endif
                     
                     <p class="text-xs text-muted mt-2">
                         <i class="fas fa-info-circle"></i> 
@@ -195,11 +276,19 @@
         @if(old('ingredientes'))
             const ingredientesExistentes = @json(old('ingredientes'));
             const alpineData = document.querySelector('[x-data]').__x.$data;
-            ingredientesExistentes.forEach(ing => {
-                alpineData.ingredientes.push({
-                    id: ing.id,
-                    cantidad: ing.cantidad
-                });
+            const ingredientesDisponibles = @json($ingredientes);
+            
+            ingredientesExistentes.forEach(ingExistente => {
+                const ingredienteCompleto = ingredientesDisponibles.find(i => i.id == ingExistente.id);
+                if (ingredienteCompleto) {
+                    alpineData.ingredientesSeleccionados.push({
+                        id: ingredienteCompleto.id,
+                        nombre: ingredienteCompleto.nombre,
+                        foto: ingredienteCompleto.foto,
+                        unidad: ingredienteCompleto.unidad_medida,
+                        cantidad: ingExistente.cantidad
+                    });
+                }
             });
         @endif
     });

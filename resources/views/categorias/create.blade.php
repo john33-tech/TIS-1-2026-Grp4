@@ -27,6 +27,9 @@
                     @enderror
                 </div>
 
+
+
+
                 <div>
                     <label class="block text-sm font-medium text-text mb-2">Icono (Font Awesome)</label>
                     {{-- Componente reutilizable --}}
@@ -35,7 +38,9 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                
 
+                
                 <div>
                     <label class="block text-sm font-medium text-text mb-2">Descripción</label>
                     <textarea name="descripcion" 

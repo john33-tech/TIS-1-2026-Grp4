@@ -152,8 +152,6 @@
                         <span x-show="sidebarExpanded || (windowWidth < 1024 && mobileSidebarOpen)" class="whitespace-nowrap">Productos</span>
                     </a>
                 </div>
-            
-                <div style="display:block;"><!--marcador1 Opaco-->
                 <div x-show="open" 
                     x-collapse
                     x-cloak
@@ -169,6 +167,9 @@
                         </span>
                     </a>
                 </div>
+
+
+                <div style="display:block;"><!--marcador1 Opaco-->
                 <div x-show="open" 
                     x-collapse
                     x-cloak
