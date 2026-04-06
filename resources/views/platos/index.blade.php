@@ -4,9 +4,9 @@
 @section('content')
 <div class="space-y-6">
     <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-primary">Platos</h1>
+        <h1 class="text-3xl font-bold text-primary">Productos</h1>
         <a href="{{ route('platos.create') }}" class="btn-primary">
-            <i class="fas fa-plus mr-2"></i> Nuevo Plato
+            <i class="fas fa-plus mr-2"></i> Nuevo Producto
         </a>
     </div>
 
@@ -15,7 +15,7 @@
         <div class="bg-gradient-to-br from-primary to-secondary rounded-lg shadow-lg p-4 text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm opacity-90">Total Platos</p>
+                    <p class="text-sm opacity-90">Total Productos</p>
                     <p class="text-2xl font-bold">{{ $totalPlatos }}</p>
                 </div>
                 <i class="fas fa-utensils text-3xl opacity-80"></i>

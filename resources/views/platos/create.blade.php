@@ -4,7 +4,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto" x-data="{ ingredientes: [] }">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-primary">Crear Nuevo Plato</h1>
+        <h1 class="text-3xl font-bold text-primary">Crear Nuevo Producto</h1>
         <a href="{{ route('platos.index') }}" class="btn-secondary">
             <i class="fas fa-arrow-left mr-2"></i> Volver
         </a>
@@ -17,7 +17,7 @@
             <div class="space-y-6">
                 <!-- Información básica -->
                 <div>
-                    <h2 class="text-xl font-semibold text-text mb-4">Información del Plato</h2>
+                    <h2 class="text-xl font-semibold text-text mb-4">Información del Producto</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-text mb-2">Nombre *</label>
@@ -163,7 +163,7 @@
                 
                 <div class="flex justify-end space-x-3 pt-4">
                     <button type="submit" class="btn-primary px-6">
-                        <i class="fas fa-save mr-2"></i> Guardar Plato
+                        <i class="fas fa-save mr-2"></i> Guardar Producto
                     </button>
                 </div>
             </div>
