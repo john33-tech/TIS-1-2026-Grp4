@@ -44,12 +44,6 @@ feature/login-backend
 feature/login-frontend
 </pre>
 
-<p><b>Ejemplos:</b></p>
-<pre>
-feature/login
-feature/pedidos
-</pre>
-
 <hr>
 
 <h2>🔗 Repositorio</h2>
