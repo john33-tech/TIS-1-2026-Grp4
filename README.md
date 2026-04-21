@@ -39,13 +39,16 @@ Aplicación web desarrollada con <b>Laravel 12</b> orientada a la gestión de un
 <pre>
 main      → versión estable
 develop   → integración
+  
 feature/login
 feature/login-backend
 feature/login-frontend
+  
 feature/productos
 feature/productos-backend
 feature/productos-frontend
-feature/login
+  
+feature/mesas
 feature/mesas-backend
 feature/mesas-frontend
 </pre>
