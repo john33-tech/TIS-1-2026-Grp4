@@ -39,7 +39,7 @@ Aplicación web desarrollada con <b>Laravel 12</b> orientada a la gestión de un
 <pre>
 main      → versión estable
 develop   → integración
-feature/* → nuevas funcionalidades
+feature/login → Backend y Frontend 
 </pre>
 
 <hr>
