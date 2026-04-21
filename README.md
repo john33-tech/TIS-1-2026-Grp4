@@ -42,6 +42,12 @@ develop   → integración
 feature/login
 feature/login-backend
 feature/login-frontend
+feature/productos
+feature/productos-backend
+feature/productos-frontend
+feature/login
+feature/mesas-backend
+feature/mesas-frontend
 </pre>
 
 <hr>
