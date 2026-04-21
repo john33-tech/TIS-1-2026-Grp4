@@ -42,12 +42,6 @@ develop   → integración
 feature/* → nuevas funcionalidades
 </pre>
 
-<p><b>Ejemplos:</b></p>
-<pre>
-feature/login
-feature/pedidos
-</pre>
-
 <hr>
 
 <h2>🔗 Repositorio</h2>
